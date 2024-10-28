@@ -162,6 +162,7 @@ in
       packages =
         with pkgs;
         [
+          manix
           devenv
           go
           gnused

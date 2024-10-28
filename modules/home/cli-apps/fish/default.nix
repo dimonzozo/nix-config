@@ -86,6 +86,9 @@ in
             sync_address = "https://api.atuin.sh";
             update_check = false;
             enter_accept = false;
+            sync = {
+              records = true;
+            };
           };
         };
 

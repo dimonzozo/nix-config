@@ -4,7 +4,6 @@
   config,
   ...
 }:
-with lib;
 with lib.${namespace};
 let
   cfg = config.${namespace}.system.apps;
@@ -27,19 +26,24 @@ in
         # cleanup = "zap";
       };
 
-      casks = [
-        "alacritty"
-        "telegram"
-        "raycast"
-        "viscosity"
-      ] ++ lib.optionals cfg.desktopTeams [
-        "microsoft-teams"
-      ] ++ lib.optionals cfg.desktopMiro [
-        "miro"
-      ] ++ lib.optionals cfg.msOffice [
-        "microsoft-auto-update"
-        "microsoft-office"
-      ] ++ cfg.extra;
+      casks =
+        [
+          "alacritty"
+          "telegram"
+          "raycast"
+          "viscosity"
+        ]
+        ++ lib.optionals cfg.desktopTeams [
+          "microsoft-teams"
+        ]
+        ++ lib.optionals cfg.desktopMiro [
+          "miro"
+        ]
+        ++ lib.optionals cfg.msOffice [
+          "microsoft-auto-update"
+          "microsoft-office"
+        ]
+        ++ cfg.extra;
     };
   };
 }
