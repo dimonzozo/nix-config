@@ -123,6 +123,7 @@ in
             lg = "lazygit";
             ldo = "lazydocker";
             ssh0 = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR";
+            scp0 = "scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no";
             sshy = "ssh -o CheckHostIP=no";
             fda = "fd -IH";
             rga = "rg -uuu";

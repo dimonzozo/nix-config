@@ -342,11 +342,11 @@
         "unstable": "unstable"
       },
       "locked": {
-        "lastModified": 1730155327,
-        "narHash": "sha256-ZvJFzVTEegkRgoV94vHdZ0SJkEwrzm8+5UfkUaa15x4=",
+        "lastModified": 1730210751,
+        "narHash": "sha256-CFGfTmypSYYvKcHm7lJlu1/7XXKoDy5FOulfQXQE9DE=",
         "owner": "dimonzozo",
         "repo": "neovim",
-        "rev": "bfc1c7a82effe9bb81da8d4231003ed077e2a8d0",
+        "rev": "5ee1d5b32c3f1341532ef137986eed46515fcb97",
         "type": "github"
       },
       "original": {
