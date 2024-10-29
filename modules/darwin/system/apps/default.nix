@@ -4,6 +4,7 @@
   config,
   ...
 }:
+with lib;
 with lib.${namespace};
 let
   cfg = config.${namespace}.system.apps;

@@ -27,6 +27,7 @@
           "steam"
           "vlc"
           "vscodium"
+          "wireshark"
         ];
       };
     };

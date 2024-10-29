@@ -162,6 +162,7 @@ in
       packages =
         with pkgs;
         [
+          cloudflared
           manix
           devenv
           go
