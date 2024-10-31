@@ -111,6 +111,16 @@ in
               mods = "Shift";
             }
             {
+              chars = "\\u0002P";
+              key = "Left";
+              mods = "Shift|Alt";
+            }
+            {
+              chars = "\\u0002N";
+              key = "Right";
+              mods = "Shift|Alt";
+            }
+            {
               chars = "\\u0002p";
               key = "[";
               mods = "Command";

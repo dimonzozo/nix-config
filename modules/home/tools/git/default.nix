@@ -31,10 +31,11 @@ in
           defaultBranch = "main";
         };
         push = {
-          default = "matching";
+          default = "current";
           autoSetupRemote = true;
         };
         pull = {
+          default = "current";
           rebase = true;
         };
         core = {
