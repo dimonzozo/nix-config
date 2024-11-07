@@ -170,6 +170,10 @@ in
           (writeShellScriptBin "gsed" "exec ${gnused}/bin/sed \"$@\"")
           lazygit
           sshpass
+          colima
+          docker
+          docker-compose
+          bash
           asciinema-agg # Convert asciinema to .gif
           asciinema # Terminal recorder
           bc # Terminal calculator
