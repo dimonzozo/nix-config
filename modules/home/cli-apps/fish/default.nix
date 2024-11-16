@@ -119,7 +119,6 @@ in
             dc = "docker-compose";
             be = "bundle exec";
             rub = "be rubocop";
-            l = "eza -lah";
             lg = "lazygit";
             ldo = "lazydocker";
             ssh0 = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR";
@@ -128,12 +127,22 @@ in
             fda = "fd -IH";
             rga = "rg -uuu";
             g = "git";
-            ls = "ls -alh";
+            ls = "eza";
+            ll = "eza -alh";
             ggpush = "git push origin (__git.current_branch)";
+            ee = "cd $HOME/.config/nix-config && $EDITOR .";
+            sw = "sudo nixos-rebuild switch --flake \"$HOME/.config/nix-config\"";
+            vimdiff = "nvim -d";
+            vi = "nvim";
+            vim = "nvim";
           };
         };
         starship = {
           enable = true;
+          catppuccin = {
+            enable = true;
+            flavor = "mocha";
+          };
           settings = {
             add_newline = false;
             format = "$username$hostname$directory$nix_shell$git_branch$git_state$git_status$cmd_duration$line_break$python$character";

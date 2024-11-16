@@ -105,7 +105,6 @@ in
             orientation = "left";
             # TODO: Configure dock here and make it host specific
             # persistent-apps = [
-            #   "/Applications/Brave Browser.app"
             #   "/Users/${username}/Applications/Home Manager Apps/Telegram.app"
             #   "/Users/${username}/Applications/Home Manager Apps/Alacritty.app"
             # ];

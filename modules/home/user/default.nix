@@ -24,9 +24,7 @@ let
 in
 {
 
-  imports = [
-    inputs.catppuccin.homeManagerModules.catppuccin
-  ];
+  imports = [ inputs.catppuccin.homeManagerModules.catppuccin ];
 
   options.${namespace}.user = {
     enable = mkOpt types.bool true "Whether to configure the user account.";

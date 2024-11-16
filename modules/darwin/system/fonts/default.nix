@@ -31,6 +31,7 @@ in
           })
           fira
           font-awesome
+          jetbrains-mono
         ]
         ++ cfg.fonts;
     };

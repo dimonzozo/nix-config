@@ -1,6 +1,4 @@
-{
-  ...
-}:
+{ ... }:
 {
   internal = {
     user = {
@@ -38,5 +36,5 @@
 
   home.sessionPath = [ "$HOME/bin" ];
 
-  home.stateVersion = "22.05";
+  home.stateVersion = "24.11";
 }

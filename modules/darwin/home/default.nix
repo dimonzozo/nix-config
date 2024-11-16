@@ -2,16 +2,11 @@
   options,
   lib,
   namespace,
-  inputs,
   ...
 }:
 with lib;
 with lib.${namespace};
 {
-  imports = with inputs; [
-    home-manager.darwinModules.home-manager
-  ];
-
   options.${namespace}.home = with types; {
     file = mkOpt attrs { } "A set of files to be managed by home-manager's <option>home.file</option>.";
     configFile =
@@ -23,11 +18,15 @@ with lib.${namespace};
 
   config = {
     internal.home.extraOptions = {
-      home.stateVersion = mkDefault "22.05";
+      home.stateVersion = mkDefault "24.11";
       home.file = mkAliasDefinitions options.${namespace}.home.file;
       xdg.enable = true;
       xdg.configFile = mkAliasDefinitions options.${namespace}.home.configFile;
     };
+
+    snowfallorg.user.${config.${namespace}.user.name}.home.config =
+      mkAliasDefinitions
+        options.${namespace}.home.extraOptions;
 
     home-manager = {
       useUserPackages = false;

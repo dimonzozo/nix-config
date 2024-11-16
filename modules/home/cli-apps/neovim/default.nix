@@ -18,23 +18,16 @@ in
   config = mkIf cfg.enable {
     home = {
       packages = with pkgs; [
-        less
-        dimonzozo.neovim
+        (dimonzozo.neovim.override {
+          extraLuaConfig = ''
+            require('telescope').setup({
+              defaults = {
+                path_display = { "truncate" }
+              }
+            })
+          '';
+        })
       ];
-
-      sessionVariables = {
-        PAGER = "less";
-        MANPAGER = "less";
-        EDITOR = "nvim";
-      };
-
-      shellAliases = {
-        vimdiff = "nvim -d";
-      };
-    };
-
-    xdg.configFile = {
-      "dashboard-nvim/.keep".text = "";
     };
   };
 }

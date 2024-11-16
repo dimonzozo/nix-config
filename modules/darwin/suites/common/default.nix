@@ -17,7 +17,7 @@ in
   config = mkIf cfg.enable {
     internal = {
       system = {
-        fonts = enabled;
+        theme = enabled;
       };
 
       services.nix-daemon = enabled;

@@ -51,7 +51,10 @@ in
         enableBashIntegration = true;
         enableFishIntegration = true;
         enableZshIntegration = true;
-        catppuccin.enable = true;
+        catppuccin = {
+          enable = true;
+          flavor = "mocha";
+        };
         settings = {
           manager = {
             show_hidden = false;
@@ -157,23 +160,36 @@ in
     };
 
     home = {
+      sessionVariables = {
+        PAGER = "bat";
+        MANPAGER = "bat";
+      };
+
       # A Modern Unix experience
       # https://jvns.ca/blog/2022/04/12/a-list-of-new-ish--command-line-tools/
       packages =
         with pkgs;
         [
-          cloudflared
-          manix
-          devenv
-          go
-          gnused
-          (writeShellScriptBin "gsed" "exec ${gnused}/bin/sed \"$@\"")
-          lazygit
-          sshpass
-          colima
-          docker
-          docker-compose
-          bash
+          (writeShellScriptBin "gsed" "exec ${gnused}/bin/sed \"$@\"") # GNU sed alias
+          asciiquarium-transparent # terminal aquarium animation
+          bash # Bourne Again Shell
+          btop # system resource monitor
+          clac # command-line calculator
+          cloudflared # Cloudflare tunnel client
+          colima # container runtime for macOS
+          curl # URL transfer tool
+          devenv # development environment tool
+          docker # container platform
+          docker-compose # multi-container Docker apps
+          gnused # GNU stream editor
+          go # Go programming language
+          helix # modern text editor
+          imv # image viewer
+          killall # process termination utility
+          manix # NixOS documentation searcher
+          sshpass # non-interactive ssh password auth
+
+          zathura # document viewer
           asciinema-agg # Convert asciinema to .gif
           asciinema # Terminal recorder
           bc # Terminal calculator

@@ -11,9 +11,7 @@ let
   cfg = config.${namespace}.tools.sops;
 in
 {
-  imports = [
-    inputs.sops-nix.homeManagerModules.sops
-  ];
+  imports = [ inputs.sops-nix.homeManagerModules.sops ];
 
   options.${namespace}.tools.sops = with types; {
     enable = mkBoolOpt false "Whether or not to install sops tool.";

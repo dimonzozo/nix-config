@@ -34,12 +34,8 @@ in
           "raycast"
           "viscosity"
         ]
-        ++ lib.optionals cfg.desktopTeams [
-          "microsoft-teams"
-        ]
-        ++ lib.optionals cfg.desktopMiro [
-          "miro"
-        ]
+        ++ lib.optionals cfg.desktopTeams [ "microsoft-teams" ]
+        ++ lib.optionals cfg.desktopMiro [ "miro" ]
         ++ lib.optionals cfg.msOffice [
           "microsoft-auto-update"
           "microsoft-office"

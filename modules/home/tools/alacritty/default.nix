@@ -14,10 +14,14 @@ in
 {
   options.${namespace}.tools.alacritty = {
     enable = mkEnableOption "Alacritty";
+    fontSize = lib.mkOption {
+      type = lib.types.int;
+      default = 16;
+    };
   };
 
   config = mkIf cfg.enable {
-    programs = mkIf isDarwin {
+    programs = {
       alacritty = {
         enable = true;
         catppuccin = {
@@ -25,10 +29,12 @@ in
           flavor = "mocha";
         };
         # workaround to use homebrew alacritty
-        package = pkgs.runCommand "alacritty" { } ''
-          mkdir -p $out/bin
-          ln -s /opt/homebrew/bin/alacritty $out/bin/alacritty
-        '';
+        package = mkIf isDarwin (
+          pkgs.runCommand "alacritty" { } ''
+            mkdir -p $out/bin
+            ln -s /opt/homebrew/bin/alacritty $out/bin/alacritty
+          ''
+        );
         settings = {
           window = {
             decorations = "full";
@@ -39,7 +45,7 @@ in
               font = "FiraCode Nerd Font";
             in
             {
-              size = 16;
+              size = cfg.fontSize;
               normal = {
                 family = font;
               };
@@ -56,7 +62,7 @@ in
             style = "Block";
             unfocused_hollow = true;
           };
-          shell = {
+          shell = mkIf isDarwin {
             program = "${pkgs.fish}/bin/fish";
             args = [
               "-l"
