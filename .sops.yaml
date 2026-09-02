@@ -1,0 +1,50 @@
+# mkdir -p ~/.config/sops/age
+
+# Generate a user key from ssh key
+# nix shell nixpkgs#ssh-to-age --command bash -c "ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt"
+
+# Generate a user key
+# nix shell nixpkgs#age --command bash -c "age-keygen -o ~/.config/sops/age/keys.txt"
+
+# Display the user public key:
+# nix shell nixpkgs#age --command bash -c "age-keygen -y ~/.config/sops/age/keys.txt"
+
+# sudo mkdir -p /var/lib/private/sops/age
+
+# Make a host key:
+# sudo nix shell nixpkgs#age --command bash -c "age-keygen -o /var/lib/private/sops/age/keys.txt"
+
+# Display the host public key:
+# sudo nix shell nixpkgs#age --command bash -c "age-keygen -y /var/lib/private/sops/age/keys.txt"
+
+# Add secrets
+# nix shell nixpkgs#sops --command bash -c "SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt sops secrets/secrets.yaml"
+
+# Rekey secrets.yaml after editing recipients in .sops.yaml:
+# nix shell nixpkgs#sops --command bash -c "SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt sops updatekeys modules/nixos/secrets/hosts/secrets.yaml modules/home/secrets/users/dima/secrets.yaml"
+keys:
+  - &user_dima_at_vizima_linux age1rm6wuhj3njyjef4jutnmdvljxay0hnlq86vq6yf0chc6u8hazvjsu6j7kc
+  - &user_dima_at_vizima_macos age1n0mgdpvg0v7quk98xsw88dxz8guwvjh48jzyec60def80d8xfpnsaal2d9
+  - &user_dima_at_lyria age10gyfc8tv6u7ndqqwmdvgd8nqfqcx3q0c4a4ykkdl0racyypz8qtqaen8lh
+  - &user_dima_at_toussaint age1snsdjmckv9z4xuvl5eatp5repcsk9zn66sf2nn3xcguwdt46vczsm5fuwv
+  - &host_lyria age18yy224cywraxz7ygdhpxz000de0h0zusuvzdelhutpl46veejg4q64g4c2
+  - &host_toussaint age1ach336ed4r24fspqpualuju4zwpjruxx33a0kc3a9xn3n3sgyg2sghuedn
+  - &host_vizima age17vlvc4yn0yyft3jpwp3dc2hp4074c4ldyfng7xaxkjk3nyp783qsymhvcg
+creation_rules:
+  - path_regex: modules/home/secrets/users/dima/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *user_dima_at_vizima_linux
+      - *user_dima_at_vizima_macos
+      - *user_dima_at_lyria
+      - *user_dima_at_toussaint
+  - path_regex: modules/nixos/secrets/hosts/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - age:
+      - *user_dima_at_vizima_linux
+      - *user_dima_at_vizima_macos
+      - *user_dima_at_lyria
+      - *user_dima_at_toussaint
+      - *host_toussaint
+      - *host_lyria
+      - *host_vizima
