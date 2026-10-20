@@ -20,7 +20,7 @@
       ];
       kernelModules = [ "dm-snapshot" ];
       luks.devices."enc" = {
-        device = "/dev/disk/by-uuid/80c3700f-8b52-4555-a392-cbd19eac32e8";
+        device = "/dev/disk/by-uuid/dd120da3-9dd9-4b51-8f58-14da462253f4";
         preLVM = true;
       };
 
@@ -40,7 +40,7 @@
 
       systemd-boot = {
         enable = true;
-        configurationLimit = 30;
+        configurationLimit = 10;
         # https://github.com/NixOS/nixpkgs/blob/c32c39d6f3b1fe6514598fa40ad2cf9ce22c3fb7/nixos/modules/system/boot/loader/systemd-boot/systemd-boot.nix#L59
         editor = false;
       };
@@ -55,12 +55,14 @@
       enable32Bit = lib.mkForce false;
     };
     asahi = {
+      enable = true;
       # Peripheral firmware is read from the default /boot/asahi at build time
       # (extracted by the Asahi installer). It is Apple-proprietary and must not
       # be committed here.
       # useExperimentalGPUDriver = true;
       setupAsahiSound = true;
       # experimentalGPUInstallMode = "overlay";
+      # peripheralFirmwareDirectory = "";
     };
   };
 
@@ -79,39 +81,39 @@
   };
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/69d7aa9b-8da4-4cdd-aff8-8daa15fa8ddd";
+    device = "/dev/disk/by-uuid/cada7765-c2b1-4a59-a82d-753ed7b6ff8d";
     fsType = "btrfs";
     options = [ "subvol=root" ];
   };
 
   fileSystems."/var/log" = {
-    device = "/dev/disk/by-uuid/69d7aa9b-8da4-4cdd-aff8-8daa15fa8ddd";
+    device = "/dev/disk/by-uuid/cada7765-c2b1-4a59-a82d-753ed7b6ff8d";
     fsType = "btrfs";
     options = [ "subvol=log" ];
     neededForBoot = true;
   };
 
   fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/69d7aa9b-8da4-4cdd-aff8-8daa15fa8ddd";
+    device = "/dev/disk/by-uuid/cada7765-c2b1-4a59-a82d-753ed7b6ff8d";
     fsType = "btrfs";
     options = [ "subvol=home" ];
   };
 
   fileSystems."/persist" = {
-    device = "/dev/disk/by-uuid/69d7aa9b-8da4-4cdd-aff8-8daa15fa8ddd";
+    device = "/dev/disk/by-uuid/cada7765-c2b1-4a59-a82d-753ed7b6ff8d";
     fsType = "btrfs";
     options = [ "subvol=persist" ];
     neededForBoot = true;
   };
 
   fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/69d7aa9b-8da4-4cdd-aff8-8daa15fa8ddd";
+    device = "/dev/disk/by-uuid/cada7765-c2b1-4a59-a82d-753ed7b6ff8d";
     fsType = "btrfs";
     options = [ "subvol=nix" ];
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/6DC8-1A1D";
+    device = "/dev/disk/by-uuid/E1C8-1925";
     fsType = "vfat";
     options = [
       "umask=0077"
@@ -119,7 +121,7 @@
   };
 
   swapDevices = [
-    { device = "/dev/disk/by-uuid/8f2194db-6b84-4fad-9ffa-97d963044291"; }
+    { device = "/dev/disk/by-uuid/751bb8a0-b4b1-4c06-8810-6c72d44f18b9"; }
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";

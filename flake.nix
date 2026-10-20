@@ -132,7 +132,7 @@
             "dima@vizima" = internal.mkHomeConfiguration {
               username = "dima";
               hostname = "vizima";
-              system = "aarch64-darwin";
+              system = "aarch64-linux";
             };
           };
         };
