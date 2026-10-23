@@ -56,9 +56,10 @@
       # Peripheral firmware is read from the default /boot/asahi at build time
       # (extracted by the Asahi installer). It is Apple-proprietary and must not
       # be committed here.
-      # useExperimentalGPUDriver = true;
+      # GPU acceleration needs no options since mesa 25.1: the mainline Asahi
+      # driver is on by default (useExperimentalGPUDriver /
+      # experimentalGPUInstallMode were removed upstream and now fail eval).
       setupAsahiSound = true;
-      # experimentalGPUInstallMode = "overlay";
       # peripheralFirmwareDirectory = "";
     };
   };
