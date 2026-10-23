@@ -27,8 +27,17 @@
 
     desktop = {
       mpv.enable = true;
-      plasma.enable = true;
-      # iwgtk.enable = true;
+      plasma = {
+        enable = true;
+        # Fresh machine, so let plasma-manager own the KDE config outright.
+        overrideConfig = true;
+        # No GPU driver yet (asahi useExperimentalGPUDriver is off), so Plasma
+        # composites on llvmpipe.
+        lightweightEffects = true;
+      };
+      # iwd without NetworkManager, so this is the only wifi UI; the panel's
+      # system tray pins its indicator.
+      iwgtk.enable = true;
       # hyprland.enable = true;
     };
 

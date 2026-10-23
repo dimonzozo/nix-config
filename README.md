@@ -71,7 +71,7 @@ modules/nixos/            NixOS modules, all under internal.*
 
 modules/home/             Home Manager modules, all under internal.*
   cli-apps/               fish (+ passage-otp), helix, tmux, zellij, lazygit
-  desktop/                firefox, mpv, qutebrowser, theme, iwgtk, macos defaults
+  desktop/                firefox, mpv, qutebrowser, plasma, theme, iwgtk, macos defaults
   secrets/users/<user>/   user-level sops file
   tools/                  common (package suites), git, kitty, sops
   user/                   username and home directory

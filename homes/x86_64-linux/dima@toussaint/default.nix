@@ -26,6 +26,9 @@
 
     desktop = {
       mpv.enable = true;
+      # Plasma here is still configured through the GUI. Read
+      # modules/home/desktop/plasma/README.md before flipping this on.
+      # plasma.enable = true;
       # iwgtk.enable = true;
       # hyprland.enable = true;
     };
