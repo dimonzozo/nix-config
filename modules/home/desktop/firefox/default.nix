@@ -27,10 +27,7 @@ in
           isDefault = true;
           settings = {
             # Content blocking and privacy
-            "browser.contentblocking.category" = {
-              Value = "strict";
-              Status = "locked";
-            };
+            "browser.contentblocking.category" = "strict";
 
             # Form settings
             "browser.formfill.enable" = false;
