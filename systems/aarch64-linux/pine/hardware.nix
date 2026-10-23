@@ -51,7 +51,7 @@
   hardware.graphics.enable = true;
   hardware.graphics.extraPackages = with pkgs; [
     mesa
-    vaapiVdpau
+    libva-vdpau-driver
     libvdpau-va-gl
   ];
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "prl-tools" ];
