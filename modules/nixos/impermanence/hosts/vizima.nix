@@ -24,8 +24,12 @@ in
           "/var/lib/fwupd" # Firmware update history and settings
           "/var/lib/nixos" # NixOS state data including user/group mappings
           "/var/lib/power-profiles-daemon" # Power management profiles
-          "/var/lib/systemd/backlight" # Screen brightness settings
-          "/var/lib/systemd/coredump" # System crash dumps for debugging
+          # All of systemd's state: backlight, coredumps, timer stamps,
+          # random-seed, and crucially credential.secret — the host key for
+          # encrypted credentials (no TPM2 on Apple Silicon, and systemd
+          # refuses to generate it on tmpfs). libvirtd's
+          # LoadCredentialEncrypted depends on it.
+          "/var/lib/systemd"
           "/var/lib/upower" # Battery statistics and history
           "/var/lib/libvirt" # VMs state
           "/var/lib/docker" # Docker state
