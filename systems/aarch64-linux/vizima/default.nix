@@ -68,6 +68,11 @@ with internal;
     nix.enable = true;
   };
 
+  # Let stage-2 rescue/emergency shells start even if /etc/shadow is broken
+  # or missing (sulogin --force). Safety net for the impermanence migration.
+  systemd.services.emergency.environment.SYSTEMD_SULOGIN_FORCE = "1";
+  systemd.services.rescue.environment.SYSTEMD_SULOGIN_FORCE = "1";
+
   services.avahi = {
     enable = true;
     nssmdns4 = true;

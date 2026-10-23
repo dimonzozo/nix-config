@@ -24,15 +24,10 @@
         preLVM = true;
       };
 
-      # systemd = {
-      #   # enable = true;
-      #   # NOTE: enabling this is a safety risk, but it is good for debug
-      #   # emergencyAccess = true;
-      #   #
-      #   # contents = {
-      #   #   "/etc/machine-id".text = "";
-      #   # };
-      # };
+      # Passwordless emergency shell in stage 1 (systemd initrd is already
+      # enabled). Safety net for the impermanence migration; physical access
+      # only, remove once the setup is stable.
+      systemd.emergencyAccess = true;
     };
     loader = {
       timeout = 1;
@@ -41,8 +36,10 @@
       systemd-boot = {
         enable = true;
         configurationLimit = 10;
-        # https://github.com/NixOS/nixpkgs/blob/c32c39d6f3b1fe6514598fa40ad2cf9ce22c3fb7/nixos/modules/system/boot/loader/systemd-boot/systemd-boot.nix#L59
-        editor = false;
+        # Allow editing the kernel command line at the boot menu (e.g. to add
+        # rd.systemd.unit=emergency.target). Kept on while impermanence is
+        # being set up.
+        editor = true;
       };
     };
     kernelModules = [ ];
