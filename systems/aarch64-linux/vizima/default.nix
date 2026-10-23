@@ -37,7 +37,7 @@ with internal;
       # niri.enable = true;
     };
 
-    # impermanence.enable = true;
+    impermanence.enable = true;
 
     apps = {
       firefox.enable = true;
