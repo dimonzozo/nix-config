@@ -35,9 +35,9 @@
     cli-apps = {
       fish = {
         enable = true;
-        # manageSshConfig = true;
-        # atuinSync = true;
-        # includeSecretAliases = true;
+        manageSshConfig = true;
+        atuinSync = true;
+        includeSecretAliases = true;
       };
       helix = {
         enable = true;
@@ -72,7 +72,7 @@
         scrollbackLines = 10000;
       };
 
-      # sops.enable = true;
+      sops.enable = true;
     };
   };
 }

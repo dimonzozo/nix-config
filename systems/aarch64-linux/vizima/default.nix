@@ -45,7 +45,7 @@ with internal;
 
     tools = {
       git.enable = true;
-      # sops.enable = true;
+      sops.enable = true;
     };
 
     # hardware = {
