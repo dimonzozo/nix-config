@@ -64,9 +64,7 @@
   };
 
   networking = {
-    # useDHCP = false;
-    # dhcpcd.enable = false;
-    useNetworkd = true;
+    useDHCP = false;
     networkmanager.enable = false;
 
     wireless = {
@@ -77,8 +75,7 @@
 
         settings = {
           General = {
-            # EnableNetworkConfiguration = false; # Let systemd-networkd handle IP config
-            EnableNetworkConfiguration = true;
+            EnableNetworkConfiguration = false; # systemd-networkd handles IP config
           };
           Network = {
             EnableIPv6 = false;
@@ -96,20 +93,12 @@
     };
   };
 
-  # systemd.network = {
-  #   enable = true;
-  #   networks."20-wlan" = {
-  #     matchConfig.Name = "wlan0";
-  #     networkConfig = {
-  #       DHCP = "yes";
-  #       IPv6AcceptRA = true;
-  #       MulticastDNS = true;
-  #     };
-  #     dhcpV4Config.RouteMetric = 600; # ethernet, if you ever plug one in, wins at 100
-  #     linkConfig.RequiredForOnline = "routable";
-  #   };
-  #   wait-online.enable = false;
-  # };
+  # The wlan .network unit lives in nix-private (nixosModules.vizima-network,
+  # imported from default.nix).
+  systemd.network = {
+    enable = true;
+    wait-online.enable = false;
+  };
 
   services.resolved = {
     enable = true;

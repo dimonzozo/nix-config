@@ -13,6 +13,7 @@ with internal;
   imports = [
     ./hardware.nix
     inputs.nixos-apple-silicon.nixosModules.apple-silicon-support
+    inputs.nix-private.nixosModules.vizima-network
   ];
 
   internal = {
