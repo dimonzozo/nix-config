@@ -36,16 +36,16 @@ with internal;
       # niri.enable = true;
     };
 
-    impermanence.enable = true;
+    # impermanence.enable = true;
 
     apps = {
       firefox.enable = true;
-      steam.enable = true;
+      # steam.enable = true;
     };
 
     tools = {
       git.enable = true;
-      sops.enable = true;
+      # sops.enable = true;
     };
 
     # hardware = {
@@ -74,9 +74,12 @@ with internal;
     publish.enable = false;
   };
 
-  users.mutableUsers = false;
+  users.mutableUsers = true;
+  # users.mutableUsers = false;
 
   environment.systemPackages = with pkgs; [
+    age
+    age-plugin-yubikey
     at
     bingrep # Binary pattern matching tool for searching through executable files and libraries
     bintools # Collection of binary utilities including objdump, nm, readelf for binary analysis
@@ -95,6 +98,7 @@ with internal;
     mods
     nerdctl
     openssl # Cryptographic toolkit providing SSL/TLS implementation and certificate management utilities
+    passage
     radare2 # Comprehensive reverse engineering framework with disassembler, debugger, and binary analysis tools
     socat
     teams-for-linux

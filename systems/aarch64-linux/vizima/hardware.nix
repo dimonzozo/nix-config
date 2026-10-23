@@ -67,16 +67,61 @@
   };
 
   networking = {
-    # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-    # (the default) this is the recommended approach. When using systemd-networkd it's
-    # still possible to use this option, but it's recommended to use it in conjunction
-    # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-    useDHCP = lib.mkDefault true;
-    # networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
+    # useDHCP = false;
+    # dhcpcd.enable = false;
+    useNetworkd = true;
+    networkmanager.enable = false;
 
-    wireless.iwd = {
-      enable = true;
-      settings.General.EnableNetworkConfiguration = true;
+    wireless = {
+      enable = false;
+
+      iwd = {
+        enable = true;
+
+        settings = {
+          General = {
+            # EnableNetworkConfiguration = false; # Let systemd-networkd handle IP config
+            EnableNetworkConfiguration = true;
+          };
+          Network = {
+            EnableIPv6 = false;
+            RoutePriorityOffset = 300;
+          };
+          Settings = {
+            AutoConnect = true;
+          };
+          Scan = {
+            DisableRoamingScan = false;
+          };
+          DriverQuirks.UseDefaultInterface = true;
+        };
+      };
+    };
+  };
+
+  # systemd.network = {
+  #   enable = true;
+  #   networks."20-wlan" = {
+  #     matchConfig.Name = "wlan0";
+  #     networkConfig = {
+  #       DHCP = "yes";
+  #       IPv6AcceptRA = true;
+  #       MulticastDNS = true;
+  #     };
+  #     dhcpV4Config.RouteMetric = 600; # ethernet, if you ever plug one in, wins at 100
+  #     linkConfig.RequiredForOnline = "routable";
+  #   };
+  #   wait-online.enable = false;
+  # };
+
+  services.resolved = {
+    enable = true;
+
+    settings.Resolve = {
+      DNS = "1.1.1.1#one.one.one.one 9.9.9.9#dns.quad9.net 2606:4700:4700::1111#one.one.one.one 2620:fe::fe#dns.quad9.net";
+      DNSOverTLS = true;
+      DNSSEC = true;
+      Domains = [ "~." ];
     };
   };
 

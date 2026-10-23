@@ -312,6 +312,29 @@
         "type": "github"
       }
     },
+    "plasma-manager": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785762349,
+        "narHash": "sha256-jZhZkzAwc7f3exzcTDJWP2WCAchCv0iNC3UF/QsahdQ=",
+        "ref": "refs/heads/trunk",
+        "rev": "a19a2a029fa180911bd89c554dca1616e10f4c1d",
+        "revCount": 327,
+        "type": "git",
+        "url": "https://github.com/nix-community/plasma-manager"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://github.com/nix-community/plasma-manager"
+      }
+    },
     "root": {
       "inputs": {
         "bibata-cursors": "bibata-cursors",
@@ -326,6 +349,7 @@
         "nixos-apple-silicon": "nixos-apple-silicon",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
+        "plasma-manager": "plasma-manager",
         "sops-nix": "sops-nix",
         "unstable": "unstable"
       }

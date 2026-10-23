@@ -1,13 +1,19 @@
 { ... }:
 {
-  services.syncthing = {
-    enable = true;
-    guiAddress = "127.0.0.1:8384";
-    overrideDevices = false;
-    overrideFolders = false;
-    settings = {
-      options.relaysEnabled = false;
-      options.urAccepted = -1;
+  services = {
+    ssh-agent = {
+      enable = true;
+    };
+
+    syncthing = {
+      enable = true;
+      guiAddress = "127.0.0.1:8384";
+      overrideDevices = false;
+      overrideFolders = false;
+      settings = {
+        options.relaysEnabled = false;
+        options.urAccepted = -1;
+      };
     };
   };
 
@@ -21,16 +27,17 @@
 
     desktop = {
       mpv.enable = true;
-      iwgtk.enable = true;
+      plasma.enable = true;
+      # iwgtk.enable = true;
       # hyprland.enable = true;
     };
 
     cli-apps = {
       fish = {
         enable = true;
-        manageSshConfig = true;
-        atuinSync = true;
-        includeSecretAliases = true;
+        # manageSshConfig = true;
+        # atuinSync = true;
+        # includeSecretAliases = true;
       };
       helix = {
         enable = true;
@@ -65,7 +72,7 @@
         scrollbackLines = 10000;
       };
 
-      sops.enable = true;
+      # sops.enable = true;
     };
   };
 }
