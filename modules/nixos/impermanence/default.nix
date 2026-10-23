@@ -16,6 +16,12 @@ let
   ) (builtins.filter (filename: lib.hasSuffix ".nix" filename) hostFiles);
 in
 {
+  # Two-stage design, on purpose: host files activate on hostname match
+  # alone, so the /persist bind mounts are live from the first rebuild and
+  # state accumulates while the system still boots from the btrfs root
+  # subvolume. The enable flag only arms the destructive part (tmpfs /,
+  # mutableUsers = false) inside each host file. New-host flow:
+  # scripts/bootstrap-persist.sh, rekey sops, flip the flag, reboot.
   imports = [
     inputs.impermanence.nixosModules.impermanence
   ]

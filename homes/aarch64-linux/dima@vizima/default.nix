@@ -37,7 +37,7 @@
       };
       # iwd without NetworkManager, so this is the only wifi UI; the panel's
       # system tray pins its indicator.
-      iwgtk.enable = true;
+      # iwgtk.enable = true;
       # hyprland.enable = true;
     };
 

@@ -54,9 +54,12 @@ systems/<system>/<host>/  NixOS hosts: default.nix (services, switches) + hardwa
 homes/<system>/<user>@<host>/default.nix
                           per-host Home Manager switches
 
+scripts/                  bootstrap-persist.sh (new-host /persist preparation)
+
 modules/nixos/            NixOS modules, all under internal.*
   apps/                   1password, firefox, steam, virtualbox
   desktop/                plasma, niri
+  disko/                  the standard laptop disk layout (LUKS -> LVM -> btrfs subvolumes)
   hardware/               audio (pipewire)
   impermanence/           tmpfs root + persisted paths per host (hosts/<host>.nix)
   monitoring/             prometheus, node exporter, grafana
@@ -85,6 +88,7 @@ shells/                   dev shells, exported as devShells (kernel-build, kerne
 |----------------|----------------|-----------------------------------------------------------------------------|
 | `lyria`        | x86_64-linux   | Home server. mdraid + btrfs via disko, impermanence, microvm host, restic, private smart-home/acme modules |
 | `lyria-testvm` | x86_64-linux   | QEMU twin of lyria for testing the disko layout and impermanence            |
+| `bootstrap-testvm` | x86_64-linux | QEMU host for rehearsing the staged new-host install end to end         |
 | `toussaint`    | x86_64-linux   | Framework 13 (AMD) laptop. LUKS unlocked via TPM2 + PIN, Plasma, impermanence |
 | `vizima`       | aarch64-linux  | Apple Silicon Mac running NixOS via nixos-apple-silicon, LUKS, Plasma. Peripheral firmware is read from `/boot/asahi`, never committed |
 | `vizima`       | aarch64-darwin | The same Mac on the macOS side, Home Manager only                           |
@@ -117,19 +121,56 @@ nix develop .#kernel-dev   # also: kernel-build, verilog-sim
 
 ### NixOS
 
-1. Boot the installer, clone this repo.
-2. Partition. `lyria` and `lyria-testvm` carry a disko layout in `hardware.nix`:
-   `nix run github:nix-community/disko -- --mode disko systems/x86_64-linux/<host>/hardware.nix`.
-   Other hosts have a hand-written `fileSystems` block; partition to match it.
-3. `nixos-install --flake .#<host>`.
-4. First boot: the user password comes from sops (`users_dima_hashed_password`). Until the host's
-   age key is registered (next section) that secret cannot be decrypted, so use the console and
-   the fallback `internal.user.initialPassword` to log in, then rotate it.
-5. Register the host in `.sops.yaml` and rekey (below). Rebuild.
+The install is staged on purpose: the machine first comes up as an ordinary mutable system from
+the btrfs `root` subvolume, accumulates its state and keys, and only then flips to sops + tmpfs
+root. The host is assumed to be already declared in the repo (see "Adding a host") with
+`tools.sops.enable` and `impermanence.enable` still commented out and `users.mutableUsers = true`.
 
-Hosts with `internal.impermanence.enable = true` keep `/` on tmpfs. Everything that must survive a
-reboot is listed in `modules/nixos/impermanence/hosts/<host>.nix`, and the SSH host key that sops
-depends on is read from `/persist/system/etc/ssh/`.
+Stage one, from the installer ISO:
+
+1. Get online. Wired just works; for WiFi use `nmtui` (graphical ISO) or `wpa_cli` (minimal ISO).
+2. `git clone https://github.com/dimonzozo/nix-config` (https: the installer has no ssh keys).
+3. Partition from the host's disko declaration (`internal.disko.laptop` in its `hardware.nix`,
+   `disko.devices` for lyria):
+
+   ```bash
+   sudo nix run github:nix-community/disko/latest -- --mode destroy,format,mount --flake .#<host>
+   ```
+
+   It prompts for the LUKS passphrase and leaves everything mounted under `/mnt`.
+4. `sudo nixos-install --flake .#<host>`, set the root password when asked. Optionally copy the
+   clone to `/mnt/home/<user>/.config/nix-config` so the post-reboot clone becomes a `git pull`.
+5. Reboot into stage one: btrfs root, no secrets, no persistence. Log in with
+   `internal.user.initialPassword` and rotate it with `passwd`.
+
+Stage two, on the running system:
+
+6. Get online again - this time through the final stack (`iwctl station wlan0 connect <ssid>`);
+   the PSK lands in `/var/lib/iwd`, which is on the persist list.
+7. Clone (or pull) the repo to `~/.config/nix-config` and do the first rebuild from it:
+   `sudo nixos-rebuild switch --flake ~/.config/nix-config#<host>`. From here on `sw` works.
+8. `sudo ./scripts/bootstrap-persist.sh` - derives the persist layout from the host's
+   `environment.persistence` declaration, copies current state and generates SSH host keys into
+   `/persist/system`, and prints the host age recipient.
+9. Generate the user key: `age-keygen -o ~/.config/sops/age/keys.txt`.
+10. On a trusted machine: add both keys to `.sops.yaml`, `sops updatekeys` both secrets files,
+    commit, push.
+11. The final run: pull, enable `tools.sops` (system and home) and `impermanence` for the host,
+    then
+
+    ```bash
+    sudo nixos-rebuild boot --flake ~/.config/nix-config#<host>   # boot, not switch
+    reboot
+    ```
+
+    First boot lands on tmpfs `/` with declarative passwords (`users.mutableUsers` is forced off
+    by the impermanence host file). Verify with `findmnt /`.
+
+Rollback at any stage: boot the previous generation - it mounts the btrfs `root` subvolume again.
+Everything that must survive a reboot is listed in `modules/nixos/impermanence/hosts/<host>.nix`;
+the persistence bind mounts are live from the first rebuild (by design - state accumulates while
+still on btrfs root), the enable flag only arms the tmpfs root. The whole flow can be rehearsed
+end to end in a VM against the `bootstrap-testvm` host.
 
 ### macOS
 

@@ -111,6 +111,21 @@
     };
   };
 
+  # Declarative description of the manually-created layout inside the
+  # Asahi-allocated partition: LUKS on nvme0n1p5 -> vg0 -> swap + btrfs
+  # subvolumes. partition mode never touches the Apple partitions or the
+  # Asahi ESP (p4, mounted below). manageMounts stays off until the
+  # disko-generated fileSystems tree is compared against the hand-written
+  # one below; formatting via disko is a reinstall-only operation.
+  internal.disko.laptop = {
+    enable = true;
+    mode = "partition";
+    device = "/dev/disk/by-uuid/dd120da3-9dd9-4b51-8f58-14da462253f4";
+    espDevice = "/dev/disk/by-uuid/E1C8-1925";
+    swapSize = "32G";
+    manageMounts = false;
+  };
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/cada7765-c2b1-4a59-a82d-753ed7b6ff8d";
     fsType = "btrfs";

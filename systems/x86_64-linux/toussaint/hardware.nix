@@ -183,6 +183,22 @@
     resumeDevice = "/dev/disk/by-uuid/a9062f39-5c61-4d91-8eb7-9550b6ed9962";
   };
 
+  # Declarative description of the hand-installed layout (whole-disk GPT:
+  # ESP + LUKS -> vg0 -> swap + btrfs subvolumes). manageMounts stays off:
+  # the UUID-based mounts below are authoritative on this install; the disko
+  # declaration documents the layout and serves future reinstalls.
+  # NOTE before using for a reinstall: verify swapSize against the real swap
+  # LV (hibernation sizing), and that toussaint has no separate log subvol -
+  # the profile creates one, which the wipe-root model there doesn't need
+  # but also doesn't conflict with.
+  internal.disko.laptop = {
+    enable = true;
+    mode = "disk";
+    device = "/dev/nvme0n1";
+    swapSize = "32G";
+    manageMounts = false;
+  };
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/5dd6977f-6b91-45b6-b87e-135aac448639";
     fsType = "btrfs";

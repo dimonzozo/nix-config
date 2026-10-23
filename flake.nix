@@ -101,6 +101,12 @@
               hmUsername = "dima";
             };
 
+            bootstrap-testvm = internal.mkNixosSystem {
+              hostname = "bootstrap-testvm";
+              system = "x86_64-linux";
+              hmUsername = "dima";
+            };
+
             lyria = internal.mkNixosSystem {
               hostname = "lyria";
               system = "x86_64-linux";
