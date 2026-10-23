@@ -23,13 +23,13 @@
 # Rekey secrets.yaml after editing recipients in .sops.yaml:
 # nix shell nixpkgs#sops --command bash -c "SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt sops updatekeys modules/nixos/secrets/hosts/secrets.yaml modules/home/secrets/users/dima/secrets.yaml"
 keys:
-  - &user_dima_at_vizima_linux age1rm6wuhj3njyjef4jutnmdvljxay0hnlq86vq6yf0chc6u8hazvjsu6j7kc
+  - &user_dima_at_vizima_linux age17pq4f6phmwxspus4jypdxqxljvjqqtsypaakfvg89z5tpwv4dqvqqp0lwg
   - &user_dima_at_vizima_macos age1n0mgdpvg0v7quk98xsw88dxz8guwvjh48jzyec60def80d8xfpnsaal2d9
   - &user_dima_at_lyria age10gyfc8tv6u7ndqqwmdvgd8nqfqcx3q0c4a4ykkdl0racyypz8qtqaen8lh
   - &user_dima_at_toussaint age1snsdjmckv9z4xuvl5eatp5repcsk9zn66sf2nn3xcguwdt46vczsm5fuwv
   - &host_lyria age18yy224cywraxz7ygdhpxz000de0h0zusuvzdelhutpl46veejg4q64g4c2
   - &host_toussaint age1ach336ed4r24fspqpualuju4zwpjruxx33a0kc3a9xn3n3sgyg2sghuedn
-  - &host_vizima age17vlvc4yn0yyft3jpwp3dc2hp4074c4ldyfng7xaxkjk3nyp783qsymhvcg
+  - &host_vizima_linux age1zrnf5rhmwrlpjjf6j9d9qvjcfuzn43z0sxzseelzwf9cd4ht0vequ34qzf
 creation_rules:
   - path_regex: modules/home/secrets/users/dima/[^/]+\.(yaml|json|env|ini)$
     key_groups:
@@ -47,4 +47,4 @@ creation_rules:
       - *user_dima_at_toussaint
       - *host_toussaint
       - *host_lyria
-      - *host_vizima
+      - *host_vizima_linux
