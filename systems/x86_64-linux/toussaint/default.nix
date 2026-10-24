@@ -162,6 +162,7 @@ with internal;
       teams-for-linux
       telegram-desktop
       tz # Timezone utility for displaying time across multiple zones with formatting options
+      unstable.claude-code
       xxd # Hex dump utility for creating and reversing hexadecimal representations of binary data
       zed-editor
     ];
