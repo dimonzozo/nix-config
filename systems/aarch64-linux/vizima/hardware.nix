@@ -94,13 +94,17 @@
     };
   };
 
-  # The wlan .network unit lives in nix-private (nixosModules.vizima-network,
-  # imported from default.nix).
+  # The wlan .network units live in nix-private (nixosModules.wlan-network,
+  # imported from default.nix), as does the badwolf tunnel (badwolf-vpn).
   systemd.network = {
     enable = true;
     wait-online.enable = false;
   };
 
+  # Default DNS over TLS with DNSSEC. No global ~. routing domain: per-link
+  # routing in nix-private decides what goes elsewhere (the home zones to the
+  # LAN DNS on home WiFi, everything through the VPN while it is up); the
+  # global servers answer whatever no link claims.
   services.resolved = {
     enable = true;
 

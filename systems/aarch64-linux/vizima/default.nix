@@ -13,7 +13,8 @@ with internal;
   imports = [
     ./hardware.nix
     inputs.nixos-apple-silicon.nixosModules.apple-silicon-support
-    inputs.nix-private.nixosModules.vizima-network
+    inputs.nix-private.nixosModules.wlan-network
+    inputs.nix-private.nixosModules.badwolf-vpn
   ];
 
   internal = {

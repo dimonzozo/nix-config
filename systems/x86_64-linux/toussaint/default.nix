@@ -12,6 +12,8 @@ with internal;
 {
   imports = [
     ./hardware.nix
+    inputs.nix-private.nixosModules.wlan-network
+    inputs.nix-private.nixosModules.badwolf-vpn
   ];
 
   internal = {

@@ -320,7 +320,10 @@
     scheduler = "scx_lavd";
   };
 
-  # Enable systemd-resolved for DNS encryption and split DNS
+  # Default DNS over TLS with DNSSEC. No global ~. routing domain: per-link
+  # routing in nix-private decides what goes elsewhere (the home zones to the
+  # LAN DNS on home WiFi, everything through the VPN while it is up); the
+  # global servers answer whatever no link claims.
   services.resolved = {
     enable = true;
 
@@ -328,7 +331,6 @@
       DNS = "1.1.1.1#one.one.one.one 9.9.9.9#dns.quad9.net 2606:4700:4700::1111#one.one.one.one 2620:fe::fe#dns.quad9.net";
       DNSOverTLS = true;
       DNSSEC = true;
-      Domains = [ "~." ];
     };
 
     # extraConfig = ''
