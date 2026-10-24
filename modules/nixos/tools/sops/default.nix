@@ -24,10 +24,10 @@ in
 
       secrets.users_dima_hashed_password.neededForUsers = true;
 
-      secrets.restic_passphrase = { };
+      secrets.cloudflare_dns_credentials = { };
       secrets.restic_environment = { };
+      secrets.restic_passphrase = { };
       secrets.restic_repository = { };
-      secrets.hurricane_credentials = { };
       secrets.vaultwarden_environment = { };
     };
   };

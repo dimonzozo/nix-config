@@ -199,11 +199,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792844588,
-        "narHash": "sha256-dEP1NMRLr0DDLaJ+HChQbIsdNrm5yEPlYD1MIeQXELE=",
+        "lastModified": 1792853350,
+        "narHash": "sha256-cHzILeeTyeN05fqm6UG1wL+fse0W6rXlrt2zZbJtrgE=",
         "ref": "refs/heads/main",
-        "rev": "5f9ebe9bc9d1a2b27aae2fc2897746aee8bd05e6",
-        "revCount": 12,
+        "rev": "70e146f720d7a8744e7fa94920ea9a9e94072d18",
+        "revCount": 13,
         "type": "git",
         "url": "ssh://git@github.com/dimonzozo/nix-config-private"
       },
