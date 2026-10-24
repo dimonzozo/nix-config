@@ -109,59 +109,6 @@
           "fallback=yes" # Allow fallback to LUKS passphrase
         ];
       };
-
-      systemd.services.btrfs-cleanup = {
-        description = "BTRFS root cleanup and snapshot management";
-        wantedBy = [ "initrd.target" ];
-        after = [ "systemd-hibernate-resume.service" ];
-        before = [ "sysroot.mount" ];
-        unitConfig = {
-          DefaultDependencies = false;
-        };
-        serviceConfig = {
-          Type = "oneshot";
-          RemainAfterExit = true;
-        };
-        script = ''
-          set -euo pipefail
-
-          MOUNT_POINT="/btrfs_tmp"
-          SNAPSHOT_DIR="root_snapshots"
-          MAX_SNAPSHOTS=30
-          BTRFS_DEVICE="/dev/mapper/pool-root"
-
-          # Mount btrfs root
-          mkdir -p "$MOUNT_POINT"
-          mount -o subvol=/ "$BTRFS_DEVICE" "$MOUNT_POINT"
-
-          # Create snapshots directory if doesn't exist
-          if [[ ! -d "$MOUNT_POINT/$SNAPSHOT_DIR" ]]; then
-              btrfs subvolume create "$MOUNT_POINT/$SNAPSHOT_DIR"
-          fi
-
-          # Create read-only snapshot of current root
-          timestamp=$(date "+%Y-%m-%d_%H:%M:%S")
-          btrfs subvolume snapshot -r "$MOUNT_POINT/root" "$MOUNT_POINT/$SNAPSHOT_DIR/root_$timestamp"
-
-          # Delete older snapshots
-          find "$MOUNT_POINT/$SNAPSHOT_DIR" -maxdepth 1 -type d -mtime +30 | while read -r snapshot; do
-              if [[ "$snapshot" != "$MOUNT_POINT/$SNAPSHOT_DIR" ]]; then
-                  btrfs subvolume delete "$snapshot"
-              fi
-          done
-
-          # Delete nested subvolumes in root
-          btrfs subvolume list -o "$MOUNT_POINT/root" | cut -f9 -d' ' | while read -r subvol; do
-              btrfs subvolume delete "$MOUNT_POINT/$subvol"
-          done
-
-          # Delete and recreate root
-          btrfs subvolume delete "$MOUNT_POINT/root"
-          btrfs subvolume create "$MOUNT_POINT/root"
-
-          umount "$MOUNT_POINT"
-        '';
-      };
     };
 
     extraModulePackages = [ ];
@@ -188,9 +135,7 @@
   # the UUID-based mounts below are authoritative on this install; the disko
   # declaration documents the layout and serves future reinstalls.
   # NOTE before using for a reinstall: verify swapSize against the real swap
-  # LV (hibernation sizing), and that toussaint has no separate log subvol -
-  # the profile creates one, which the wipe-root model there doesn't need
-  # but also doesn't conflict with.
+  # LV (hibernation sizing).
   internal.disko.laptop = {
     enable = true;
     mode = "disk";
@@ -199,6 +144,8 @@
     manageMounts = false;
   };
 
+  # Bootstrap-stage root only; the impermanence host file replaces / with
+  # tmpfs once internal.impermanence.enable is set.
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/5dd6977f-6b91-45b6-b87e-135aac448639";
     fsType = "btrfs";
