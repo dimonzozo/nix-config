@@ -56,8 +56,8 @@
           enable = true;
           go = true;
           nix = true;
-          markdown = true;
-          sdr = true;
+          # markdown = true;
+          # sdr = true;
         };
         system = {
           enable = true;

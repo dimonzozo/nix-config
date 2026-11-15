@@ -79,7 +79,7 @@
           enable = true;
           go = true;
           nix = true;
-          markdown = true;
+          # markdown = true;
         };
       };
       sops.enable = true;
