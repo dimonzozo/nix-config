@@ -107,6 +107,27 @@
         "type": "github"
       }
     },
+    "helix-plugins": {
+      "inputs": {
+        "nixpkgs": [
+          "unstable"
+        ],
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1794178520,
+        "narHash": "sha256-DQ9yeHhMxsdnOTPHfVIZFsQBWvECNjpkxajR4VFILSA=",
+        "owner": "maxschipper",
+        "repo": "helix-plugins-nix",
+        "rev": "74463bf8d365d2d9990a201079ee500402dd14e7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "maxschipper",
+        "repo": "helix-plugins-nix",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -342,6 +363,7 @@
         "disko": "disko",
         "flake-parts": "flake-parts",
         "gpg-base-conf": "gpg-base-conf",
+        "helix-plugins": "helix-plugins",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "microvm": "microvm",
@@ -388,6 +410,21 @@
       "original": {
         "type": "git",
         "url": "https://spectrum-os.org/git/spectrum"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1791244623,
+        "narHash": "sha256-uuanbkFk8a313Zfrxdcz8Us/yQtaxNnKJtX8v0ZPpd8=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "d36eeed142f88b5a636f2e3856a53c61654cf29b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
       }
     },
     "unstable": {

@@ -95,6 +95,20 @@ let
     get-default-nix-files-recursive =
       path: builtins.filter (name: builtins.baseNameOf name == "default.nix") (get-files-recursive path);
 
+    # Overlays applied to every package set, NixOS and standalone Home Manager alike.
+    # Home modules can't set `nixpkgs.overlays` themselves: with `useGlobalPkgs`
+    # the NixOS-integrated Home Manager ignores it.
+    sharedOverlays = [
+      inputs.helix-plugins.overlays.default
+      # Expose nixpkgs-unstable as `pkgs.unstable.<name>`.
+      (final: _prev: {
+        unstable = import inputs.unstable {
+          inherit (final.stdenv.hostPlatform) system;
+          config.allowUnfree = true;
+        };
+      })
+    ];
+
     mkNixosSystem =
       {
         hostname,
@@ -139,7 +153,8 @@ let
           {
             nixpkgs.overlays = [
               inputs.microvm.overlay
-            ];
+            ]
+            ++ sharedOverlays;
           }
         ];
 
@@ -175,6 +190,7 @@ let
         pkgs = import inputs.nixpkgs {
           inherit system;
           config.allowUnfree = true;
+          overlays = sharedOverlays;
         };
 
         extraSpecialArgs = {

@@ -6,6 +6,9 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    helix-plugins.url = "github:maxschipper/helix-plugins-nix";
+    helix-plugins.inputs.nixpkgs.follows = "unstable";
+
     nix-private.url = "git+ssh://git@github.com/dimonzozo/nix-config-private";
     # nix-private.url = "git+file:///home/dima/.config/nix-config-private";
     nix-private.inputs.nixpkgs.follows = "nixpkgs";

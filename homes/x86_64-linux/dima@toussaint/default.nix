@@ -42,7 +42,6 @@
       };
       helix = {
         enable = true;
-        # package = pkgs.internal.helix-steel;
       };
       home-manager.enable = true;
       lazygit.enable = true;

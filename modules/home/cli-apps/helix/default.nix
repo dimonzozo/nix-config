@@ -1,9 +1,10 @@
 {
-  lib,
   config,
+  inputs,
   internal,
-  pkgs,
+  lib,
   namespace,
+  pkgs,
   ...
 }:
 with lib;
@@ -11,23 +12,41 @@ with internal;
 let
   inherit (pkgs.stdenv) isDarwin;
   cfg = config.${namespace}.cli-apps.helix;
+  theme = "catppuccin_mocha";
 in
 {
+  imports = [ inputs.helix-plugins.homeManagerModules.default ];
+
   options.${namespace}.cli-apps.helix = {
     enable = mkEnableOption "Helix - a post-modern modal text editor";
-    package = mkOption {
-      type = types.package;
-      default = pkgs.helix;
-      description = "Helix package to use";
-    };
   };
 
   config = mkIf cfg.enable {
+    xdg.configFile."helix/init.scm".text = ''
+      (require "yank-flash/yank-flash.scm")
+      (require "smooth-scroll/smooth-scroll.scm")
+      (require "scooter/scooter.scm")
+    '';
+
+    # yank-flash.hx generates this theme on first yank, but fails with ENOENT
+    # because ~/.config/helix/themes/yank_flash/ doesn't exist. Ship it instead.
+    xdg.configFile."helix/themes/yank_flash/${theme}__yank_flash.toml".text = ''
+      inherits = "${theme}"
+
+      "ui.selection" = { bg = "bg", modifiers = ["reversed"] }
+      "ui.selection.primary" = { bg = "bg", modifiers = ["reversed"] }
+    '';
+
     programs.helix = {
       enable = true;
-      package = cfg.package;
+      package = pkgs.unstable.steelix;
+      plugins = with pkgs.helixPlugins; [
+        yank-flash-hx # flash the yanked region
+        smooth-scroll-hx # animated half-page/page scrolling
+        scooter-hx # interactive project-wide search and replace (native lib)
+      ];
       settings = {
-        theme = "catppuccin_mocha";
+        inherit theme;
         editor = {
           shell = [
             "fish"
@@ -42,7 +61,7 @@ in
           line-number = "relative";
           trim-trailing-whitespace = true;
           end-of-line-diagnostics = "hint";
-          # rainbow-brackets = true;
+          rainbow-brackets = true;
           color-modes = true;
           indent-guides.render = true;
           # default-yank-register = "*";
@@ -101,6 +120,11 @@ in
           ];
         };
         keys.normal = {
+          "C-d" = ":half-page-down-smooth";
+          "C-u" = ":half-page-up-smooth";
+          pageup = ":page-up-smooth";
+          pagedown = ":page-down-smooth";
+          space.E = "file_explorer_in_current_buffer_directory"; # upstream moved it to <space>.
           space.w = ":w";
           space.q = ":q";
           space.l = [
@@ -130,6 +154,9 @@ in
             "goto_file"
             ":buffer-close! /tmp/files2open"
           ];
+        };
+        keys.select = {
+          space.E = "file_explorer_in_current_buffer_directory";
         };
         keys.insert = {
           "C-[" = "normal_mode";
