@@ -23,7 +23,7 @@ in
       enable = true; # Enable PipeWire as the main audio service
       alsa.enable = true; # Enable ALSA support for compatibility with ALSA applications
       pulse.enable = true; # Enable PulseAudio support for compatibility with PulseAudio applications
-      jack.enable = true; # Enable JACK support for professional audio applications
+      jack.enable = false; # JACK shim sets a global LD_LIBRARY_PATH; use `pw-jack <app>` when needed
       wireplumber.enable = true; # Enable WirePlumber as the session manager
     };
 
