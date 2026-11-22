@@ -38,6 +38,16 @@ in
           group = "jellyfin";
         } # Jellyfin cache
         {
+          directory = "/var/lib/frigate";
+          user = "podman";
+          group = "users";
+        } # Frigate state
+        {
+          directory = "/var/lib/frigate-media";
+          user = "podman";
+          group = "users";
+        } # Frigate media
+        {
           directory = "/var/lib/mosquitto";
           user = "mosquitto";
           group = "mosquitto";

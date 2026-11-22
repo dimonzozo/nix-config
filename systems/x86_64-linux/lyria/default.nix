@@ -2,7 +2,6 @@
   config,
   inputs,
   internal,
-  lib,
   namespace,
   ...
 }:
