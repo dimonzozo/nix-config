@@ -94,14 +94,11 @@
         "tpm_tis" # For discrete TPM
         "tpm_crb" # For firmware TPM
       ];
-      systemd.enable = true; # Required for TPM2 handling
-
       # NOTE: enabling this is a safety risk, but it is good for debug
       # systemd.emergencyAccess = true;
 
       luks.devices."enc" = {
         device = "/dev/disk/by-uuid/6da23928-95a2-45e3-a72b-d4d2c09a2f3d";
-        preLVM = true;
         crypttabExtraOpts = [
           "tpm2-device=auto"
           "tpm2-pcrs=7"
@@ -262,9 +259,9 @@
   #   };
   # };
 
-  services.scx = {
+  services.scx-loader = {
     enable = true;
-    scheduler = "scx_lavd";
+    config.default_sched = "scx_lavd";
   };
 
   # Default DNS over TLS with DNSSEC. No global ~. routing domain: per-link

@@ -12,7 +12,9 @@ with internal;
 let
   inherit (pkgs.stdenv) isDarwin;
   cfg = config.${namespace}.cli-apps.helix;
-  theme = "catppuccin_mocha";
+  # Set by the catppuccin port when theming is on; the mkDefault below is the
+  # fallback (helix's bundled theme).
+  inherit (config.programs.helix.settings) theme;
 in
 {
   imports = [ inputs.helix-plugins.homeManagerModules.default ];
@@ -46,7 +48,7 @@ in
         scooter-hx # interactive project-wide search and replace (native lib)
       ];
       settings = {
-        inherit theme;
+        theme = mkDefault "catppuccin_mocha";
         editor = {
           shell = [
             "fish"

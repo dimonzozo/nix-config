@@ -21,7 +21,6 @@
       kernelModules = [ "dm-snapshot" ];
       luks.devices."enc" = {
         device = "/dev/disk/by-uuid/dd120da3-9dd9-4b51-8f58-14da462253f4";
-        preLVM = true;
       };
 
       # Passwordless emergency shell in stage 1 (systemd initrd is already

@@ -136,6 +136,8 @@ in
           enable = true;
           enableBashIntegration = true;
           enableFishIntegration = true;
+          # Atuin owns Ctrl-R
+          historyWidget.command = "";
         };
 
         # Gitui: Terminal user interface for Git
@@ -439,6 +441,10 @@ in
         in
         {
           inherit accent flavor;
+          enable = true;
+          autoEnable = true;
+          # Themed by hand in its own module.
+          tmux.enable = false;
           yazi.enable = true;
           starship.enable = true;
           micro.enable = true;

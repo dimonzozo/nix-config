@@ -27,13 +27,16 @@ in
     home-manager.users.${user.name} = {
       programs.git = {
         enable = true;
-        inherit (cfg) userName userEmail;
         lfs.enable = true;
         signing = {
           key = cfg.signingKey;
           signByDefault = false;
         };
-        extraConfig = {
+        settings = {
+          user = {
+            name = cfg.userName;
+            email = cfg.userEmail;
+          };
           init = {
             defaultBranch = "main";
           };

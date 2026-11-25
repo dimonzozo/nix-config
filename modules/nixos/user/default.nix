@@ -30,6 +30,12 @@ in
   ];
 
   config = {
+    # No NixOS-level ports are used; theming lives in home-manager.
+    catppuccin = {
+      enable = false;
+      autoEnable = false;
+    };
+
     programs.zsh = {
       enable = true;
       autosuggestions.enable = true;
