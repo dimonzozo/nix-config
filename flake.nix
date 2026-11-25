@@ -1,7 +1,7 @@
 {
   description = "Personal nixos, nix-darwin and Home Manager Configuration";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/release-26.05";
+    nixpkgs.url = "github:nixos/nixpkgs/release-26.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -14,10 +14,10 @@
     nix-private.inputs.nixpkgs.follows = "nixpkgs";
     nix-private.inputs.flake-parts.follows = "flake-parts";
 
-    catppuccin.url = "github:catppuccin/nix/release-26.05";
+    catppuccin.url = "github:catppuccin/nix";
     catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager/release-26.05";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     plasma-manager.url = "git+https://github.com/nix-community/plasma-manager";
@@ -145,7 +145,7 @@
             "dima@vizima" = internal.mkHomeConfiguration {
               username = "dima";
               hostname = "vizima";
-              system = "aarch64-linux";
+              system = "aarch64-darwin";
             };
           };
         };
